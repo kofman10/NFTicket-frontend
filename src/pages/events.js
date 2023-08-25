@@ -85,7 +85,7 @@ const events = () => {
           ))}
         </div>
       ) : (
-        <p> Connect your wallet to Base-goerli testnet chain</p>
+        <p className="text-center text-5xl text-white"> Connect your wallet to Base-goerli testnet chain</p>
       )}
     </div>
   );
