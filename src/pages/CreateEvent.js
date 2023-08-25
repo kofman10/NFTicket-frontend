@@ -63,7 +63,7 @@ const Stepper = () => {
   // console.log(`ChainId is ${chainId}`)
   const NfticketAddress =
     chainId in contractAddresses ? contractAddresses[chainId][0] : null;
-  const supportedChains = ["84531", "11155111"];
+  const supportedChains = ["84531"];
 
   const dispatch = useNotification();
 

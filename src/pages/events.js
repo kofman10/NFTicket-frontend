@@ -16,16 +16,13 @@ const events = () => {
   const chainId = parseInt(chainIdHex);
   const NfticketAddress =
     chainId in contractAddresses ? contractAddresses[chainId][0] : null;
-  const supportedChains = ["84531", "11155111"];
+  const supportedChains = ["84531"];
 
   const [events, setEvents] = useState([]);
 
   const NFTicketAddress = "0xa53C8A63fe130a0DDCa15Bfcbb9d28e56b99BeDF";
 
-
   const dispatch = useNotification();
-
-
 
   const [provider, setProvider] = useState();
   useEffect(() => {
@@ -37,7 +34,6 @@ const events = () => {
     NFticketabi,
     provider
   );
-  
 
   const { runContractFunction: getTotalEvent } = useWeb3Contract({
     abi: NFticketabi,
@@ -46,22 +42,20 @@ const events = () => {
     params: {},
   });
 
-//    const { runContractFunction: purchaseNormal } = useWeb3Contract({
-//           abi: NFT2abi,
-//           contractAddress: raffleAddress,
-//           functionName: "purchaseNormal",
-//           params: { amount : 1 },
-//       })
+  //    const { runContractFunction: purchaseNormal } = useWeb3Contract({
+  //           abi: NFT2abi,
+  //           contractAddress: raffleAddress,
+  //           functionName: "purchaseNormal",
+  //           params: { amount : 1 },
+  //       })
 
   async function updateUIValues() {
-  
     const totalEvents = (
       await getTotalEvent({
-      
         onError: (error) => console.log(error),
       })
     ).toString();
-   
+
     const eventaa = [];
     for (let i = 1; i <= totalEvents; i++) {
       const eventa = await NfticketContract.getEvent(i);
@@ -76,16 +70,23 @@ const events = () => {
     }
   }, [isWeb3Enabled]);
 
-
   return (
-    <div className = 'bg-[#090922] h-screen'>
+    <div className="bg-[#090922] h-screen">
       <Header />
-      <h1 className = 'text-center text-yellow-100 text-5xl font-bold mt-10'>EVENT LISTS</h1>
-      {events.map((event, index) => (
-        <div className = 'bg-[#090922] flex flex-col gap-10'>
-          <Eventcard key={index} event={event} />
+      <h1 className="text-center text-yellow-100 text-5xl font-bold mt-10">
+        EVENT LISTS
+      </h1>
+      {supportedChains.includes(parseInt(chainId).toString()) ? (
+        <div>
+          {events.map((event, index) => (
+            <div className="bg-[#090922] flex flex-col gap-10">
+              <Eventcard key={index} event={event} />
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        <p> Connect your wallet to Base-goerli testnet chain</p>
+      )}
     </div>
   );
 };
